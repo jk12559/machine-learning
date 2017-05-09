@@ -18678,7 +18678,7 @@ KUmSJEmSJHWEgSlJkiRJkiR1xP8Hn1PRFCs8MX0AAAAASUVORK5CYII=
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Answer:</strong></p>
 <ul>
-<li>I used epsilon = cos(pi/(2<em>300) </em> t) as the decaying function.  I chose this to shoot for around 300 training trials and I used cosine as the decay function because it kept epsilon higher early on to allow it to learn more early before dropping off more quickly later on to force the agent to use what it had learned.</li>
+<li>I used epsilon = cos(pi/(2*300) * t) as the decaying function.  I chose this to shoot for around 300 training trials and I used cosine as the decay function because it kept epsilon higher early on to allow it to learn more early before dropping off more quickly later on to force the agent to use what it had learned.</li>
 <li>I kept the default 0.05 at 0.5 for epsilon tolerance and learning rate.  The reason I kept them is because I used the epsilon function to set the number of trials rather than tweaking the tolerance to adjust the number of trials.  Also the learning rate didn't seem relevant to change once enough trials got the agent to a decent quality.</li>
 <li>Given these choices, the relative frequency of bad actions eventually went to what looks like 0 and the average reward per actions approached +2.  This is the most it could be since the reward system is set up so that doing exactly the right thing gives a reward of +2 to the agent.  </li>
 <li>Also the rate of reliability approached 100% near the end of the 300 trials.</li>
@@ -18717,7 +18717,7 @@ KUmSJEmSJHWEgSlJkiRJkiR1xP8Hn1PRFCs8MX0AAAAASUVORK5CYII=
 <p><strong>Answer:</strong> 
 Here are some examples of states and the appropriate actions based on our knowledge of driving rules</p>
 <ul>
-<li>('forward', 'red', None, None, None) -&gt; None (at any red light, the driver should not move)</li>
+<li>('forward', 'red', None, None, None) -&gt; None (at any red light, the driver should not proceed forward even if there are no other cars at the intersection)</li>
 <li>('left', 'green', None, 'forward', None) -&gt; None (even though the light is green, driver should yield to oncoming traffic when turning left)</li>
 <li>('left', 'green', 'right', 'left', 'right') -&gt; 'left' (with the light green, even with cars at every part of the intersection, the driver could still make a left turn if the oncoming traffic is also turning left and the cross traffic are both turning right because no other cars would end up crossing our path)</li>
 </ul>
@@ -18774,8 +18774,8 @@ Here are some examples of states and the appropriate actions based on our knowle
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Answer:</strong></p>
 <ul>
-<li>The use of future rewards would allow the smartcab to figure out which action would take it closer to the goal to avoid penalties as the deadline approaches but the smartcab already has a route planned through the next_waypoint function.  You would not want the Q values to determine the direction and override the planned route.</li>
-<li>The environmental factor that invalidates the use of future rewards is that the state the smartcab ends up in after its action is dependent on the changing lights and the actions of other cars that the smartcab is not aware of.  Therefore, it would not be able to know what state it ends up in when it takes the original action.</li>
+<li>The smartcab's factor that invalidates the use of future rewards is the fact that the states of the smartcab have nothing to do with the cab's position in the world or how close it is to the goal.  At any intersection, the cab could be in any of the states because it is only dependent on the direction of its next waypoint and sensory input of the light and other cars.  Because of this, it isn't possible to propagate reward to states that are "closer" to the goal since there is no concept of distance to the goal in the states.</li>
+<li>The environmental factor that invalidates the use of future rewards is that the destination is in a different location every iteration.  Even if there was some way to define absolute position in the states, since the goal is moving around, the future rewards of each state would be different from iteration to iteration.  Given enough iterations and the destination visiting all possible locations randomly, the effect of the future rewards would become uniform over all states and could therefore be dropped.</li>
 </ul>
 
 </div>

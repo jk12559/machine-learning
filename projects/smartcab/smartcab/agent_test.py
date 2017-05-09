@@ -125,7 +125,7 @@ class test_agent(unittest.TestCase):
             Case 3: alpha = .1, Q[state] =Q[state] = {None: 0, 'left':1, 'forward':2,'right':3}, action = None, reward = 5 => Q[state] = {None: .5, 'left':1, 'forward':2,'right':3}               
             Case 4: alpha = .5, Q[state] =Q[state] = {None: 0, 'left':1, 'forward':2,'right':3}, action = 'forward', reward = 5 => Q[state] = {None: 0, 'left':1, 'forward':4.3,'right':3}   
         '''
-        
+        self.agent.learning = True
         #case 1
         self.agent.alpha = .1
         self.agent.Q[self.state] = {None: 0, 'left':1, 'forward':2,'right':3}
